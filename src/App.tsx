@@ -23,6 +23,11 @@ export function App() {
     const changeFilter = (value: FilterValuesType) => {
         setFilter(value)
     }
+    const addTask = (title: string) => {
+        let newTask = {id: v1(), title: title, isDone: false}
+        let newTasks = [newTask, ...tasks]
+        setTasks(newTasks)
+    }
     //tasks for render
     let tasksForTodolist = tasks
     if (filter === "completed") {
@@ -39,6 +44,7 @@ export function App() {
                 tasks={tasksForTodolist}
                 removeTask={removeTask}
                 changeFilter={changeFilter}
+                addTask={addTask}
             />
 
         </div>
