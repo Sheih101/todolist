@@ -28,6 +28,12 @@ export function App() {
         let newTasks = [newTask, ...tasks]
         setTasks(newTasks)
     }
+    const changeStatus = (taskId: string, isDone: boolean) => {
+        let task = tasks.find(t => t.id === taskId)
+        if (task) { //погуглить псевдо истина псевдо ложь
+            task.isDone = isDone
+        }
+    }
     //tasks for render
     let tasksForTodolist = tasks
     if (filter === "completed") {
