@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from './Todolist';
+import {TaskType, Todolist} from './Todolist';
 import {v1} from "uuid";
 
 export type FilterValuesType = "all" | "completed" | "active";
@@ -9,6 +9,10 @@ export type TodolistsType = {
     title: string
     filter: FilterValuesType
 }
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
+
 
 export function App() {
     //state
@@ -18,7 +22,7 @@ export function App() {
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
-    const [tasks, setTasks] = useState({
+    const [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
             {id: v1(), title: "HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -35,20 +39,20 @@ export function App() {
         ]
     });
     //callBack functions
-    const addTask = (todolistID:string, title: string) => {
+    const addTask = (todolistID: string, title: string) => {
         const newTask = {id: v1(), title: title, isDone: false}
         setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
     }
-    const removeTask = (todolistID:string, id: string) => {
+    const removeTask = (todolistID: string, id: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== id)})
     }
-    const changeTaskStatus = (todolistID:string, taskId: string, isDone: boolean) => {
+    const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
     }
-    const changeFilter = (todolistID:string, value: FilterValuesType) => {
+    const changeFilter = (todolistID: string, value: FilterValuesType) => {
         setTodolists(todolists.map(m => m.id === todolistID ? {...m, filter: value} : m))
     }
-    const removeTodolist = (todolistID:string) => {
+    const removeTodolist = (todolistID: string) => {
         setTodolists(todolists.filter(f => f.id !== todolistID))
         delete tasks[todolistID]
     }
