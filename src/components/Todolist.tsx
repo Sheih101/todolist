@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {FilterValuesType} from "./App";
-import {Button} from "./components/Button/Button";
+import {FilterValuesType} from "../App";
+import {Button} from "./Button";
 //types
 export type TaskType = {
     id: string
@@ -59,7 +59,7 @@ export function Todolist(props: PropsType) {
                        onKeyPress={onKeyPressHandler}
                        className={error ? "error" : ""}
                 />
-                <button onClick={addTask}>+</button>
+                <Button name={'+'} callBack={addTask}/>
                 {error && <div className="error-message">{error}</div>}
             </div>
             <ul>
@@ -72,7 +72,7 @@ export function Todolist(props: PropsType) {
 
                         return (
                             <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                                <button onClick={onRemoveHandler}>X</button>
+                                <Button name={'X'} callBack={onRemoveHandler}/>
                                 <input type="checkbox"
                                        onChange={onChangeHandler}
                                        checked={t.isDone}/>
