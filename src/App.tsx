@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './components/Todolist';
+import {TaskType, Todolist} from './Todolist';
 import {v1} from "uuid";
+import {Input} from "./components/Input";
 
 export type FilterValuesType = "all" | "completed" | "active";
 export type TodolistsType = {
@@ -45,19 +46,32 @@ export function App() {
     const removeTask = (todolistID: string, id: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== id)})
     }
+    const updateTask = (todolistID: string, title: string, taskID: string) => {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title} : m)})
+    }
     const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
     }
     const changeFilter = (todolistID: string, value: FilterValuesType) => {
         setTodolists(todolists.map(m => m.id === todolistID ? {...m, filter: value} : m))
     }
+    const addTodolist = (title: string) => {
+        const newTodolistID = v1()
+        const newTodolist: TodolistsType = {id: newTodolistID, title, filter: "all"}
+        setTodolists([newTodolist, ...todolists])
+        setTasks({...tasks, [newTodolistID]: []})
+    }
     const removeTodolist = (todolistID: string) => {
         setTodolists(todolists.filter(f => f.id !== todolistID))
         delete tasks[todolistID]
     }
+    const updateTodolist = (todolistID: string, title: string) => {
+        setTodolists(todolists.map(m => m.id === todolistID ? {...m, title} : m))
+    }
 
     return (
         <div className="App">
+            <Input addItem={addTodolist}/>
             {
                 todolists.map(tl => {
 
@@ -78,9 +92,11 @@ export function App() {
                             filter={tl.filter}
                             addTask={addTask}
                             removeTask={removeTask}
+                            updateTask={updateTask}
                             changeTaskStatus={changeTaskStatus}
                             changeFilter={changeFilter}
                             removeTodolist={removeTodolist}
+                            updateTodolist={updateTodolist}
                         />
                     )
                 })
