@@ -1,6 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from "../App";
+import {EditableSpan} from "./EditableSpan";
 import {Button} from "./Button";
+import {Input} from "./Input";
 //types
 export type TaskType = {
     id: string
@@ -13,87 +15,68 @@ export type PropsType = {
     todolistID: string
     filter: FilterValuesType
     addTask: (todolistID: string, title: string) => void
-    removeTask: (todolistID: string, TaskId: string) => void
+    removeTask: (todolistID: string, taskId: string) => void
+    updateTask: (todolistID: string, title: string, taskId: string) => void
     changeTaskStatus: (todolistID: string, taskId: string, isDone: boolean) => void
     changeFilter: (todolistID: string, value: FilterValuesType) => void
     removeTodolist: (todolistID: string) => void
+    updateTodolist: (todolistID: string, title: string) => void
 }
 
 export function Todolist(props: PropsType) {
-    //state
-    const [title, setTitle] = useState("")
-    const [error, setError] = useState<string | null>(null)
-    //handler functions
-    const addTask = () => {
-        if (title.trim() !== "") {
-            props.addTask(props.todolistID, title.trim())
-            setTitle("")
-        } else {
-            setError("Title is required!")
-        }
+
+    const addTask = (title: string) => {
+        props.addTask(props.todolistID, title)
     }
-    const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
-        if (e.charCode === 13) {
-            addTask()
-        }
+    const onRemoveTaskHandler = (taskID: string) => props.removeTask(props.todolistID, taskID)
+    const onChangeHandler = (taskID: string, e: ChangeEvent<HTMLInputElement>) => {
+        props.changeTaskStatus(props.todolistID, taskID, e.currentTarget.checked)
     }
     const onTodoRemoveClickHandler = () => props.removeTodolist(props.todolistID)
-    const onAllClickHandler = () => props.changeFilter(props.todolistID, "all")
-    const onActiveClickHandler = () => props.changeFilter(props.todolistID, "active")
-    const onCompletedClickHandler = () => props.changeFilter(props.todolistID, "completed")
+    const callBackForEditableSpan = (title: string, taskID: string) => {
+        props.updateTask(props.todolistID, title, taskID)
+    }
+    const callBackForEditableSpanForHeader = (title: string) => {
+        props.updateTodolist(props.todolistID, title)
+    }
+    const changeFilterHandler = (filterValue: FilterValuesType) => props.changeFilter(props.todolistID, filterValue)
 
     return (
         <div>
             <h3>
-                {props.title}
-                <Button name={'X'} callBack={onTodoRemoveClickHandler}/>
+                <EditableSpan title={props.title} callBack={(title) => callBackForEditableSpanForHeader(title)}/>
+                <button onClick={onTodoRemoveClickHandler}>X</button>
             </h3>
-
             <div>
-                <input value={title}
-                       onChange={onNewTitleChangeHandler}
-                       onKeyPress={onKeyPressHandler}
-                       className={error ? "error" : ""}
-                />
-                <Button name={'+'} callBack={addTask}/>
-                {error && <div className="error-message">{error}</div>}
+                <Input addItem={addTask}/>
             </div>
             <ul>
                 {
                     props.tasks.map(t => {
-                        const onRemoveHandler = () => props.removeTask(props.todolistID, t.id)
-                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            props.changeTaskStatus(props.todolistID, t.id, e.currentTarget.checked)
-                        }
-
                         return (
                             <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                                <Button name={'X'} callBack={onRemoveHandler}/>
+                                <Button name={'X'} callBack={() => onRemoveTaskHandler(t.id)}/>
                                 <input type="checkbox"
-                                       onChange={onChangeHandler}
-                                       checked={t.isDone}/>
-                                <span>{t.title}</span>
+                                       onChange={(e) => onChangeHandler(t.id, e)}
+                                       checked={t.isDone}
+                                />
+                                <EditableSpan title={t.title}
+                                              callBack={(title) => callBackForEditableSpan(title, t.id)}/>
                             </li>
                         )
                     })
                 }
             </ul>
             <div>
-                <button className={props.filter === "all" ? "active-filter" : ""}
-                        onClick={onAllClickHandler}>All
-                </button>
-
-                <button className={props.filter === "active" ? "active-filter" : ""}
-                        onClick={onActiveClickHandler}>Active
-                </button>
-
-                <button className={props.filter === "completed" ? "active-filter" : ""}
-                        onClick={onCompletedClickHandler}>Completed
-                </button>
+                <Button name={'all'}
+                        callBack={() => changeFilterHandler('all')}
+                        className={props.filter === "all" ? "active-filter" : ""}/>
+                <Button name={'active'}
+                        callBack={() => changeFilterHandler('active')}
+                        className={props.filter === "active" ? "active-filter" : ""}/>
+                <Button name={'completed'}
+                        callBack={() => changeFilterHandler('completed')}
+                        className={props.filter === "completed" ? "active-filter" : ""}/>
             </div>
         </div>
     )
