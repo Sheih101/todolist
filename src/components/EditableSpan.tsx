@@ -5,16 +5,13 @@ type PropsType = {
     callBack: (title: string) => void
 }
 
-
 export const EditableSpan = (props: PropsType) => {
 
-    const [title, setTitle] = useState(props.title)
-    const [edit, setEdit] = useState(false)
+    const [title, setTitle] = useState<string>(props.title)
+    const [edit, setEdit] = useState<boolean>(false)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
-    const onDoubleClickHandler = () => {
-        setEdit(true)
-    }
+    const onDoubleClickHandler = () => setEdit(true)
     const onBlurHandler = () => {
         setEdit(false)
         props.callBack(title)

@@ -45,7 +45,7 @@ export function Todolist(props: PropsType) {
         <div>
             <h3>
                 <EditableSpan title={props.title} callBack={(title) => callBackForEditableSpanForHeader(title)}/>
-                <button onClick={onTodoRemoveClickHandler}>X</button>
+                <Button name={'X'} callBack={onTodoRemoveClickHandler}/>
             </h3>
             <div>
                 <Input addItem={addTask}/>

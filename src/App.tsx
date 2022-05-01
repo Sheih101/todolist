@@ -38,7 +38,7 @@ export function App() {
             {id: v1(), title: "GraphQL2", isDone: false},
         ]
     });
-    //callBack functions
+    // functions
     const addTask = (todolistID: string, title: string) => {
         const newTask = {id: v1(), title: title, isDone: false}
         setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
@@ -85,9 +85,9 @@ export function App() {
 
                     return (
                         <Todolist
-                            tasks={tasksForTodolist}
                             key={tl.id}
                             todolistID={tl.id}
+                            tasks={tasksForTodolist}
                             title={tl.title}
                             filter={tl.filter}
                             addTask={addTask}
