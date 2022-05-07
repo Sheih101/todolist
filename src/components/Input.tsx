@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {Button} from './Button';
 
 type PropsType = {
     addItem: (title: string) => void
@@ -21,7 +22,7 @@ export const Input = (props: PropsType) => {
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null)
-        if (e.charCode === 13) {
+        if (e.key === 'Enter') {
             addItem()
         }
     }
@@ -30,9 +31,8 @@ export const Input = (props: PropsType) => {
             <input value={title}
                    onChange={onNewTitleChangeHandler}
                    onKeyPress={onKeyPressHandler}
-                   className={error ? "error" : ""}
-            />
-            <button onClick={addItem}>+</button>
+                   className={error ? "error" : ""}/>
+            <Button name={'+'} callBack={addItem}/>
             {error && <div className="error-message">{error}</div>}
         </div>
     );

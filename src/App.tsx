@@ -38,7 +38,7 @@ export function App() {
             {id: v1(), title: "GraphQL2", isDone: false},
         ]
     });
-    // functions
+    //functions
     const addTask = (todolistID: string, title: string) => {
         const newTask = {id: v1(), title: title, isDone: false}
         setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
@@ -96,8 +96,7 @@ export function App() {
                             changeTaskStatus={changeTaskStatus}
                             changeFilter={changeFilter}
                             removeTodolist={removeTodolist}
-                            updateTodolist={updateTodolist}
-                        />
+                            updateTodolist={updateTodolist}/>
                     )
                 })
             }
