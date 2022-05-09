@@ -49,7 +49,7 @@ export function App() {
     const updateTask = (todolistID: string, title: string, taskID: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title} : m)})
     }
-    const changeTaskStatus = (todolistID: string, taskId: string, isDone: boolean) => {
+    const changeCheckbox = (todolistID: string, taskId: string, isDone: boolean) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
     }
     const changeFilter = (todolistID: string, value: FilterValuesType) => {
@@ -71,7 +71,7 @@ export function App() {
 
     return (
         <div className="App">
-            <Input addItem={addTodolist}/>
+            <Input callBack={addTodolist}/>
             {
                 todolists.map(tl => {
 
@@ -93,7 +93,7 @@ export function App() {
                             addTask={addTask}
                             removeTask={removeTask}
                             updateTask={updateTask}
-                            changeTaskStatus={changeTaskStatus}
+                            changeCheckbox={changeCheckbox}
                             changeFilter={changeFilter}
                             removeTodolist={removeTodolist}
                             updateTodolist={updateTodolist}/>

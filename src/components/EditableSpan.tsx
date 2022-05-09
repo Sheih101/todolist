@@ -13,7 +13,7 @@ export const EditableSpan = (props: PropsType) => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
     const onDoubleClickHandler = () => setEdit(true)
     const onBlurHandler = () => {
-        setEdit(false)
+        setEdit(!edit)
         props.callBack(title)
     }
 

@@ -21,6 +21,7 @@
 
 .is-done {
     opacity: 0.5;
+    text-decoration: line-through;
 }
 
 
