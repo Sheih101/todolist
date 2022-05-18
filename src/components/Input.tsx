@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button} from './Button';
+import {Button, TextField} from '@mui/material';
 
 type PropsType = {
     callBack: (title: string) => void
@@ -8,21 +8,21 @@ type PropsType = {
 export const Input = (props: PropsType) => {
 
     const [title, setTitle] = useState("")
-    const [error, setError] = useState<string | null>(null)
+    const [error, setError] = useState<boolean>(false)
 
     const addItemHandler = () => {
         if (title.trim() !== "") {
             props.callBack(title.trim())
             setTitle("")
         } else {
-            setError("Title is required!")
+            setError(true)
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        setError(false)
         if (e.key === 'Enter') {
             addItemHandler()
         }
@@ -30,12 +30,24 @@ export const Input = (props: PropsType) => {
 
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? "error" : ""}/>
-            <Button name={'+'} callBack={addItemHandler}/>
-            {error && <div className="error-message">{error}</div>}
+            <TextField id={'outlined-basic'}
+                       label={error ? 'Title is required' : 'Enter text'}
+                       variant={'outlined'}
+                       value={title}
+                       onChange={onChangeHandler}
+                       onKeyPress={onKeyPressHandler}
+                       size={'small'}
+                       error={error}
+            />
+            <Button variant={'contained'}
+                    onClick={addItemHandler}
+                    style={{
+                        maxWidth: '38px',
+                        maxHeight: '38px',
+                        minWidth: '38px',
+                        minHeight: '38px'
+                    }}>+
+            </Button>
         </div>
     );
 };
