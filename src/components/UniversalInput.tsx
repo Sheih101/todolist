@@ -5,7 +5,7 @@ type PropsType = {
     callBack: (title: string) => void
 }
 
-export const Input = (props: PropsType) => {
+export const UniversalInput = (props: PropsType) => {
 
     const [title, setTitle] = useState("")
     const [error, setError] = useState<boolean>(false)
@@ -29,7 +29,7 @@ export const Input = (props: PropsType) => {
     }
 
     return (
-        <div>
+        <>
             <TextField id={'outlined-basic'}
                        label={error ? 'Title is required' : 'Enter text'}
                        variant={'outlined'}
@@ -48,6 +48,6 @@ export const Input = (props: PropsType) => {
                         minHeight: '38px'
                     }}>+
             </Button>
-        </div>
+        </>
     );
 };

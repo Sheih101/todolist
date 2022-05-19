@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './components/Todolist';
 import {v1} from "uuid";
-import {Input} from "./components/Input";
+import {UniversalInput} from "./components/UniversalInput";
 import {ButtonAppBar} from './components/ButtonAppBar';
 import {Container, Grid, Paper} from '@mui/material';
 
@@ -75,8 +75,8 @@ export function App() {
         <div className="App">
             <ButtonAppBar/>
             <Container fixed>
-                <Grid container style={{padding: '10px'}}>
-                    <Input callBack={addTodolist}/>
+                <Grid container style={{padding: '10px'}} justifyContent="center">
+                    <UniversalInput callBack={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {todolists.map(tl => {

@@ -1,9 +1,11 @@
 import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from "../App";
 import {EditableSpan} from "./EditableSpan";
-import {Input} from "./Input";
+import {UniversalInput} from "./UniversalInput";
 import {Button, Checkbox, IconButton} from '@mui/material';
 import {Delete} from '@mui/icons-material';
+import {pink} from '@mui/material/colors';
+import CloseIcon from '@mui/icons-material/Close';
 
 export type TaskType = {
     id: string
@@ -56,18 +58,24 @@ export function Todolist(props: PropsType) {
                     <Delete onClick={removeTodolistHandler}/>
                 </IconButton>
             </h3>
-            <Input callBack={addTaskHandler}/>
+            <UniversalInput callBack={addTaskHandler}/>
             <ul>
                 {props.tasks.map(t => {
                     return (
-                        <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                        <li key={t.id} className={`${t.isDone ? "is-done" : ""} list-element`}>
                             <Checkbox defaultChecked
                                       onChange={(e) => checkboxHandler(t.id, e)}
                                       checked={t.isDone}
+                                      sx={{
+                                          color: pink[800],
+                                          '&.Mui-checked': {
+                                              color: pink[600],
+                                          }
+                                      }}
                             />
                             <EditableSpan title={t.title} callBack={(title) => editTaskHandler(title, t.id)}/>
                             <IconButton aria-label={'delete'}>
-                                <Delete onClick={() => removeTaskHandler(t.id)}/>
+                                <CloseIcon onClick={() => removeTaskHandler(t.id)} style={{}}/>
                             </IconButton>
                         </li>
                     )
