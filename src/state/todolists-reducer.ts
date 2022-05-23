@@ -1,8 +1,8 @@
-import {TodolistsType} from '../App';
+import {FilterValuesType, TodolistType} from '../App';
 
-type ActionsType = AddTodolistType | RemoveTodolistType | UpdateTodolistTitleType
+type ActionsType = AddTodolistType | RemoveTodolistType | UpdateTodolistTitleType | ChangeFilterType
 
-export const todolistsReducer = (state: Array<TodolistsType>, action: ActionsType) => {
+export const todolistsReducer = (state: Array<TodolistType>, action: ActionsType) => {
     switch (action.type) {
         case 'ADD-TODOLIST': {
             const newTodolist = {
@@ -20,6 +20,9 @@ export const todolistsReducer = (state: Array<TodolistsType>, action: ActionsTyp
                 ...m,
                 title: action.payload.newTodolistTitle
             } : m)
+        }
+        case 'CHANGE-FILTER': {
+            return state.map(m => m.id === action.payload.todolistID ? {...m, filter: action.payload.newFilter} : m)
         }
         default:
             return state
@@ -47,5 +50,13 @@ export const updateTodolistTitle = (todolistID: string, newTodolistTitle: string
     return {
         type: 'UPDATE-TODOLIST-TITLE',
         payload: {todolistID, newTodolistTitle}
+    } as const
+}
+
+type ChangeFilterType = ReturnType<typeof changeFilter>
+export const changeFilter = (todolistID: string, newFilter: FilterValuesType) => {
+    return {
+        type: 'CHANGE-FILTER',
+        payload: {todolistID, newFilter}
     } as const
 }

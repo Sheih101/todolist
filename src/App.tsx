@@ -7,7 +7,7 @@ import {ButtonAppBar} from './components/ButtonAppBar';
 import {Container, Grid, Paper} from '@mui/material';
 
 export type FilterValuesType = "all" | "completed" | "active";
-export type TodolistsType = {
+export type TodolistType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -20,7 +20,7 @@ export function App() {
     //state
     const todolistID1 = v1();
     const todolistID2 = v1();
-    const [todolists, setTodolists] = useState<Array<TodolistsType>>([
+    const [todolists, setTodolists] = useState<Array<TodolistType>>([
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
@@ -59,7 +59,7 @@ export function App() {
     }
     const addTodolist = (title: string) => {
         const newTodolistID = v1()
-        const newTodolist: TodolistsType = {id: newTodolistID, title, filter: "all"}
+        const newTodolist: TodolistType = {id: newTodolistID, title, filter: "all"}
         setTodolists([newTodolist, ...todolists])
         setTasks({...tasks, [newTodolistID]: []})
     }
