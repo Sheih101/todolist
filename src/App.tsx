@@ -67,7 +67,7 @@ export function App() {
         setTodolists(todolists.filter(f => f.id !== todolistID))
         delete tasks[todolistID]
     }
-    const updateTodolist = (todolistID: string, title: string) => {
+    const updateTodolistTitle = (todolistID: string, title: string) => {
         setTodolists(todolists.map(m => m.id === todolistID ? {...m, title} : m))
     }
 
@@ -104,7 +104,7 @@ export function App() {
                                         changeCheckbox={changeCheckbox}
                                         changeFilter={changeFilter}
                                         removeTodolist={removeTodolist}
-                                        updateTodolist={updateTodolist}
+                                        updateTodolistTitle={updateTodolistTitle}
                                     />
                                 </Paper>
                             </Grid>

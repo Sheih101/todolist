@@ -23,7 +23,7 @@ export type PropsType = {
     changeCheckbox: (todolistID: string, taskId: string, isDone: boolean) => void
     changeFilter: (todolistID: string, value: FilterValuesType) => void
     removeTodolist: (todolistID: string) => void
-    updateTodolist: (todolistID: string, title: string) => void
+    updateTodolistTitle: (todolistID: string, title: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -47,7 +47,7 @@ export function Todolist(props: PropsType) {
         props.updateTask(props.todolistID, title, taskID)
     }
     const editTodolistHandler = (title: string) => {
-        props.updateTodolist(props.todolistID, title)
+        props.updateTodolistTitle(props.todolistID, title)
     }
 
     return (

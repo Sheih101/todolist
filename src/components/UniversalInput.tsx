@@ -31,7 +31,7 @@ export const UniversalInput = (props: PropsType) => {
     return (
         <>
             <TextField id={'outlined-basic'}
-                       label={error ? 'Title is required' : 'Enter text'}
+                       label={error ? 'Title is required' : 'Enter the text'}
                        variant={'outlined'}
                        value={title}
                        onChange={onChangeHandler}
