@@ -7,13 +7,13 @@ type PropsType = {
 
 export const UniversalInput = (props: PropsType) => {
 
-    const [title, setTitle] = useState("")
+    const [title, setTitle] = useState('')
     const [error, setError] = useState<boolean>(false)
 
     const addItemHandler = () => {
-        if (title.trim() !== "") {
+        if (title.trim() !== '') {
             props.callBack(title.trim())
-            setTitle("")
+            setTitle('')
         } else {
             setError(true)
         }

@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './components/Todolist';
-import {v1} from "uuid";
-import {UniversalInput} from "./components/UniversalInput";
+import {v1} from 'uuid';
+import {UniversalInput} from './components/UniversalInput';
 import {ButtonAppBar} from './components/ButtonAppBar';
 import {Container, Grid, Paper} from '@mui/material';
 
-export type FilterValuesType = "all" | "completed" | "active";
+export type FilterValuesType = 'all' | 'completed' | 'active';
 export type TodolistType = {
     id: string
     title: string
@@ -26,18 +26,18 @@ export function App() {
     ])
     const [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "ReactJS", isDone: false},
-            {id: v1(), title: "Rest API", isDone: false},
-            {id: v1(), title: "GraphQL", isDone: false},
+            {id: v1(), title: 'HTML&CSS', isDone: true},
+            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'ReactJS', isDone: false},
+            {id: v1(), title: 'Rest API', isDone: false},
+            {id: v1(), title: 'GraphQL', isDone: false},
         ],
         [todolistID2]: [
-            {id: v1(), title: "HTML&CSS2", isDone: true},
-            {id: v1(), title: "JS2", isDone: true},
-            {id: v1(), title: "ReactJS2", isDone: false},
-            {id: v1(), title: "Rest API2", isDone: false},
-            {id: v1(), title: "GraphQL2", isDone: false},
+            {id: v1(), title: 'HTML&CSS2', isDone: true},
+            {id: v1(), title: 'JS2', isDone: true},
+            {id: v1(), title: 'ReactJS2', isDone: false},
+            {id: v1(), title: 'Rest API2', isDone: false},
+            {id: v1(), title: 'GraphQL2', isDone: false},
         ]
     })
     //functions
@@ -48,18 +48,16 @@ export function App() {
     const removeTask = (todolistID: string, id: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(f => f.id !== id)})
     }
-    const updateTask = (todolistID: string, title: string, taskID: string) => {
+    const updateTaskTitle = (todolistID: string, taskID: string, title: string) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskID ? {...m, title} : m)})
     }
     const changeCheckbox = (todolistID: string, taskId: string, isDone: boolean) => {
         setTasks({...tasks, [todolistID]: tasks[todolistID].map(m => m.id === taskId ? {...m, isDone} : m)})
     }
-    const changeFilter = (todolistID: string, value: FilterValuesType) => {
-        setTodolists(todolists.map(m => m.id === todolistID ? {...m, filter: value} : m))
-    }
+
     const addTodolist = (title: string) => {
         const newTodolistID = v1()
-        const newTodolist: TodolistType = {id: newTodolistID, title, filter: "all"}
+        const newTodolist: TodolistType = {id: newTodolistID, title, filter: 'all'}
         setTodolists([newTodolist, ...todolists])
         setTasks({...tasks, [newTodolistID]: []})
     }
@@ -70,7 +68,9 @@ export function App() {
     const updateTodolistTitle = (todolistID: string, title: string) => {
         setTodolists(todolists.map(m => m.id === todolistID ? {...m, title} : m))
     }
-
+    const changeFilter = (todolistID: string, value: FilterValuesType) => {
+        setTodolists(todolists.map(m => m.id === todolistID ? {...m, filter: value} : m))
+    }
     return (
         <div className="App">
             <ButtonAppBar/>
@@ -82,10 +82,10 @@ export function App() {
                     {todolists.map(tl => {
 
                         let tasksForTodolist = tasks[tl.id]
-                        if (tl.filter === "completed") {
+                        if (tl.filter === 'completed') {
                             tasksForTodolist = tasks[tl.id].filter(t => t.isDone)
                         }
-                        if (tl.filter === "active") {
+                        if (tl.filter === 'active') {
                             tasksForTodolist = tasks[tl.id].filter(t => !t.isDone)
                         }
 
@@ -100,7 +100,7 @@ export function App() {
                                         filter={tl.filter}
                                         addTask={addTask}
                                         removeTask={removeTask}
-                                        updateTask={updateTask}
+                                        updateTaskTitle={updateTaskTitle}
                                         changeCheckbox={changeCheckbox}
                                         changeFilter={changeFilter}
                                         removeTodolist={removeTodolist}
