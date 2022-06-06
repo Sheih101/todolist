@@ -32,7 +32,7 @@ test('correct task should be added from correct array', () => {
 
 test('correct task should be removed from correct array', () => {
 
-    const endState = tasksReducer(startState, removeTaskAC('2', 'todolistId2'))
+    const endState = tasksReducer(startState, removeTaskAC('todolistId2', '2'))
 
     expect(endState).toEqual({
         'todolistId1': [
