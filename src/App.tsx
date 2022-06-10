@@ -4,7 +4,7 @@ import {TaskType, Todolist} from './components/Todolist';
 import {UniversalInput} from './components/UniversalInput';
 import {ButtonAppBar} from './components/ButtonAppBar';
 import {Container, Grid, Paper} from '@mui/material';
-import {addTodolistAC} from './state/todolists-reducer';
+import {addTodolist} from './state/todolists-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 
@@ -19,17 +19,14 @@ export type TasksStateType = {
 }
 
 export function App() {
-    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
     const dispatch = useDispatch()
-    const addTodolist = (title: string) => {
-        dispatch(addTodolistAC(title))
-    }
+    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
     return (
         <div className="App">
             <ButtonAppBar/>
             <Container fixed>
                 <Grid container style={{padding: '10px'}} justifyContent="center">
-                    <UniversalInput callBack={addTodolist}/>
+                    <UniversalInput callBack={title => dispatch(addTodolist(title))}/>
                 </Grid>
                 <Grid container spacing={3}>
                     {todolists.map((tl, i) => {

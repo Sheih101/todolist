@@ -8,8 +8,8 @@ import {pink} from '@mui/material/colors';
 import CloseIcon from '@mui/icons-material/Close';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../state/store';
-import {addTaskAC, changeCheckboxAC, removeTaskAC, updateTaskTitleAC} from '../state/tasks-reducer';
-import {changeFilterAC, removeTodolistAC, updateTodolistTitleAC} from '../state/todolists-reducer';
+import {addTask, changeCheckbox, removeTask, updateTaskTitle} from '../state/tasks-reducer';
+import {changeFilter, removeTodolist, updateTodolistTitle} from '../state/todolists-reducer';
 
 export type TaskType = {
     id: string
@@ -21,7 +21,7 @@ export type PropsType = {
 }
 
 export function Todolist({todolist}: PropsType) {
-
+    const dispatch = useDispatch()
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state =>
         state.tasks[todolist.id].filter(t =>
             todolist.filter === 'all' ? t : todolist.filter === 'completed' ? t.isDone : !t.isDone))
@@ -34,28 +34,26 @@ export function Todolist({todolist}: PropsType) {
     // return !t.isDone
     // }
 
-    const dispatch = useDispatch()
-
     const addTaskHandler = (title: string) => {
-        dispatch(addTaskAC(todolist.id, title))
+        dispatch(addTask(todolist.id, title))
     }
     const removeTaskHandler = (taskID: string) => {
-        dispatch(removeTaskAC(todolist.id, taskID))
+        dispatch(removeTask(todolist.id, taskID))
     }
     const updateTaskTitleHandler = (taskID: string, title: string) => {
-        dispatch(updateTaskTitleAC(todolist.id, taskID, title))
+        dispatch(updateTaskTitle(todolist.id, taskID, title))
     }
     const changeCheckboxHandler = (taskID: string, e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeCheckboxAC(todolist.id, taskID, e.currentTarget.checked))
+        dispatch(changeCheckbox(todolist.id, taskID, e.currentTarget.checked))
     }
     const removeTodolistHandler = () => {
-        dispatch(removeTodolistAC(todolist.id))
+        dispatch(removeTodolist(todolist.id))
     }
     const changeFilterHandler = (filterValue: FilterValuesType) => {
-        dispatch(changeFilterAC(todolist.id, filterValue))
+        dispatch(changeFilter(todolist.id, filterValue))
     }
     const updateTodolistTitleHandler = (title: string) => {
-        dispatch(updateTodolistTitleAC(todolist.id, title))
+        dispatch(updateTodolistTitle(todolist.id, title))
     }
 
     return (
@@ -68,9 +66,9 @@ export function Todolist({todolist}: PropsType) {
             </h3>
             <UniversalInput callBack={addTaskHandler}/>
             <ul>
-                {tasks.map(t => {
+                {tasks.map((t, i) => {
                     return (
-                        <li key={t.id} className={`${t.isDone ? 'is-done' : ''} list-element`}>
+                        <li key={`${t.id}-${i}`} className={`${t.isDone ? 'is-done' : ''} list-element`}>
                             <Checkbox defaultChecked
                                       onChange={(e) => changeCheckboxHandler(t.id, e)}
                                       checked={t.isDone}

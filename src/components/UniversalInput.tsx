@@ -35,7 +35,7 @@ export const UniversalInput = (props: PropsType) => {
                        variant={'outlined'}
                        value={title}
                        onChange={onChangeHandler}
-                       onKeyPress={onKeyPressHandler}
+                       onKeyDown={onKeyPressHandler}
                        size={'small'}
                        error={error}
             />
