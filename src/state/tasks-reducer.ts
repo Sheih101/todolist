@@ -65,22 +65,22 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     }
 }
 
-type AddTaskType = ReturnType<typeof addTask>
-export const addTask = (todolistID: string, title: string) => {
+type AddTaskType = ReturnType<typeof addTaskAC>
+export const addTaskAC = (todolistID: string, title: string) => {
     return {type: 'ADD-TASK', todolistID, title} as const
 }
 
-type RemoveTaskType = ReturnType<typeof removeTask>
-export const removeTask = (todolistID: string, taskID: string) => {
+type RemoveTaskType = ReturnType<typeof removeTaskAC>
+export const removeTaskAC = (todolistID: string, taskID: string) => {
     return {type: 'REMOVE-TASK', todolistID, taskID} as const
 }
 
-type UpdateTaskTitleType = ReturnType<typeof updateTaskTitle>
-export const updateTaskTitle = (todolistID: string, taskID: string, newTaskTitle: string) => {
+type UpdateTaskTitleType = ReturnType<typeof updateTaskTitleAC>
+export const updateTaskTitleAC = (todolistID: string, taskID: string, newTaskTitle: string) => {
     return {type: 'UPDATE-TASK-TITLE', todolistID, taskID, newTaskTitle} as const
 }
 
-type ChangeCheckboxType = ReturnType<typeof changeCheckbox>
-export const changeCheckbox = (todolistID: string, taskID: string, isDone: boolean) => {
+type ChangeCheckboxType = ReturnType<typeof changeCheckboxAC>
+export const changeCheckboxAC = (todolistID: string, taskID: string, isDone: boolean) => {
     return {type: 'CHANGE-CHECKBOX', todolistID, taskID, isDone} as const
 }

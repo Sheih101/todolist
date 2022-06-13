@@ -5,7 +5,7 @@ type PropsType = {
     callBack: (title: string) => void
 }
 
-export const EditableSpan = (props: PropsType) => {
+export const EditableSpan = React.memo((props: PropsType) => {
 
     const [title, setTitle] = useState<string>(props.title)
     const [edit, setEdit] = useState<boolean>(false)
@@ -29,4 +29,4 @@ export const EditableSpan = (props: PropsType) => {
                      autoFocus/>
             : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
     );
-};
+})
