@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useCallback} from 'react';
 import './App.css';
+import {TaskType, Todolist} from './components/Todolist';
+import {UniversalInput} from './components/UniversalInput';
+import {ButtonAppBar} from './components/ButtonAppBar';
+import {Container, Grid, Paper} from '@mui/material';
+import {addTodolist} from './state/todolists-reducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from './state/store';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export type FilterValuesType = 'all' | 'completed' | 'active';
+export type TodolistType = {
+    id: string
+    title: string
+    filter: FilterValuesType
+}
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
 }
 
-export default App;
+export const App = () => {
+    const dispatch = useDispatch()
+    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
+    const addTodolistHandler = useCallback((title: string) => {
+        dispatch(addTodolist(title))
+    }, [])
+    return (
+        <div className="App">
+            <ButtonAppBar/>
+            <Container fixed>
+                <Grid container style={{padding: '10px'}} justifyContent="center">
+                    <UniversalInput callBack={addTodolistHandler}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todolists.map((tl, i) => {
+                        return (
+                            <Grid key={`${tl.id}-${i}`} item>
+                                <Paper style={{padding: '10px'}}>
+                                    <Todolist todolist={tl}/>
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
+        </div>
+    );
+};
