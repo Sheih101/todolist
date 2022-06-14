@@ -17,7 +17,7 @@ export const EditableSpan = React.memo((props: PropsType) => {
         setEdit(true)
     }
     const onBlurHandler = () => {
-        setEdit(!edit)
+        setEdit(false)
         props.callBack(title)
     }
 

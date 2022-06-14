@@ -25,30 +25,30 @@ export const App = React.memo(() => {
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    const addTask = (todolistID: string, title: string) => {
+    const addTask = useCallback((todolistID: string, title: string) => {
         dispatch(addTaskAC(todolistID, title))
-    }
-    const removeTask = (todolistID: string, taskID: string) => {
+    }, [])
+    const removeTask = useCallback((todolistID: string, taskID: string) => {
         dispatch(removeTaskAC(todolistID, taskID))
-    }
-    const updateTaskTitle = (todolistID: string, taskID: string, title: string) => {
+    }, [])
+    const updateTaskTitle = useCallback((todolistID: string, taskID: string, title: string) => {
         dispatch(updateTaskTitleAC(todolistID, taskID, title))
-    }
-    const changeCheckbox = (todolistID: string, taskID: string, isDone: boolean) => {
+    }, [])
+    const changeCheckbox = useCallback((todolistID: string, taskID: string, isDone: boolean) => {
         dispatch(changeCheckboxAC(todolistID, taskID, isDone))
-    }
+    }, [])
     const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
     }, [])
-    const removeTodolist = (todolistID: string) => {
+    const removeTodolist = useCallback((todolistID: string) => {
         dispatch(removeTodolistAC(todolistID))
-    }
-    const updateTodolistTitle = (todolistID: string, title: string) => {
+    }, [])
+    const updateTodolistTitle = useCallback((todolistID: string, title: string) => {
         dispatch(updateTodolistTitleAC(todolistID, title))
-    }
-    const changeFilter = (todolistID: string, value: FilterValuesType) => {
+    }, [])
+    const changeFilter = useCallback((todolistID: string, value: FilterValuesType) => {
         dispatch(changeFilterAC(todolistID, value))
-    }
+    }, [])
 
     return (
         <div className="App">
@@ -58,16 +58,10 @@ export const App = React.memo(() => {
                     <UniversalInput callBack={addTodolist}/>
                 </Grid>
                 <Grid container spacing={3}>
-                    {todolists.map((tl, i) => {
+                    {todolists.map(tl => {
                         let tasksForTodolist = tasks[tl.id]
-                        if (tl.filter === 'completed') {
-                            tasksForTodolist = tasks[tl.id].filter(t => t.isDone)
-                        }
-                        if (tl.filter === 'active') {
-                            tasksForTodolist = tasks[tl.id].filter(t => !t.isDone)
-                        }
                         return (
-                            <Grid key={`${tl.id}-${i}`} item>
+                            <Grid key={tl.id} item>
                                 <Paper style={{padding: '10px'}}>
                                     <Todolist todolistID={tl.id}
                                               tasks={tasksForTodolist}

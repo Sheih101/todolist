@@ -16,7 +16,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     switch (action.type) {
         case 'ADD-TASK': {
             const newTask = {
-                id: v1(),
+                taskID: v1(),
                 title: action.title,
                 isDone: false
             }
@@ -28,13 +28,13 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'REMOVE-TASK': {
             return {
                 ...state,
-                [action.todolistID]: state[action.todolistID].filter(f => f.id !== action.taskID)
+                [action.todolistID]: state[action.todolistID].filter(f => f.taskID !== action.taskID)
             }
         }
         case 'UPDATE-TASK-TITLE': {
             return {
                 ...state,
-                [action.todolistID]: state[action.todolistID].map(m => m.id === action.taskID ? {
+                [action.todolistID]: state[action.todolistID].map(m => m.taskID === action.taskID ? {
                     ...m,
                     title: action.newTaskTitle
                 } : m)
@@ -43,7 +43,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'CHANGE-CHECKBOX': {
             return {
                 ...state,
-                [action.todolistID]: state[action.todolistID].map(m => m.id === action.taskID ? {
+                [action.todolistID]: state[action.todolistID].map(m => m.taskID === action.taskID ? {
                     ...m,
                     isDone: action.isDone
                 } : m)
