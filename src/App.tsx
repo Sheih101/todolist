@@ -19,7 +19,7 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-export const App = React.memo(() => {
+export const App = () => {
 
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
@@ -83,4 +83,4 @@ export const App = React.memo(() => {
             </Container>
         </div>
     );
-})
+}

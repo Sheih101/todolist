@@ -62,7 +62,7 @@ export const Todolist: React.FC<PropsType> = React.memo((props: PropsType) => {
             <div>
                 {tasksForTodolist.map(t =>
                     <Task key={t.taskID}
-                          t={t} //task
+                          task={t} //task
                           todolistID={props.todolistID}
                           removeTask={props.removeTask}
                           changeCheckbox={props.changeCheckbox}
