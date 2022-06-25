@@ -37,7 +37,9 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "storybook": "start-storybook -p 9009",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "jest:integration": "jest -c integration/jest.config.js",
+    "test:integration": "start-server-and-test storybook http-get://localhost:9009 jest:integration"
   },
   "eslintConfig": {
     "extends": [
@@ -79,7 +81,11 @@
     "@storybook/react": "^6.5.9",
     "@storybook/testing-library": "^0.0.13",
     "babel-plugin-named-exports-order": "^0.0.2",
+    "jest-image-snapshot": "^5.1.0",
+    "jest-puppeteer": "^6.1.0",
     "prop-types": "^15.8.1",
+    "puppeteer": "^15.0.0",
+    "start-server-and-test": "^1.14.0",
     "webpack": "^5.73.0"
   }
 }
