@@ -20,13 +20,12 @@ const TaskWithLocalState = () => {
     const [task, setTask] = useState<TaskType>({taskID: 'qqwe', title: 'JS', isDone: false})
 
     const changeCheckbox = () => setTask({...task, isDone: !task.isDone})
-    const updateTaskTitle = (todolistID: string, taskID: string, title: string) => {
+    const updateTaskTitle = (taskID: string, title: string) => {
         setTask({...task, title})
     }
 
     return (
         <Task task={task}
-              todolistID={'sadxzc'}
               removeTask={action('removeTask')}
               changeCheckbox={changeCheckbox}
               updateTaskTitle={updateTaskTitle}

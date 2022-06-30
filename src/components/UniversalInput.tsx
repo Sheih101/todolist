@@ -6,6 +6,7 @@ type PropsType = {
 }
 
 export const UniversalInput = React.memo((props: PropsType) => {
+
     const [title, setTitle] = useState('')
     const [error, setError] = useState<boolean>(false)
 
