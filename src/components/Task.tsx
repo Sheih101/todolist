@@ -13,7 +13,6 @@ type PropsType = {
 }
 
 export const Task = React.memo(({task, removeTask, changeCheckbox, updateTaskTitle}: PropsType) => {
-
     const taskClassName = `${task.isDone ? 'is-done' : ''} list-element`
 
     const removeTaskHandler = () => {

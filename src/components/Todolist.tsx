@@ -20,16 +20,15 @@ type PropsType = {
 }
 
 export const Todolist: React.FC<PropsType> = React.memo(({todolist}: PropsType) => {
-
     const dispatch = useDispatch()
     const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todolist.todolistID])
 
     let tasksForTodolist = tasks
-    if (todolist.filter === 'active') {
-        tasksForTodolist = tasks.filter(t => !t.isDone)
-    }
     if (todolist.filter === 'completed') {
         tasksForTodolist = tasks.filter(t => t.isDone)
+    }
+    if (todolist.filter === 'active') {
+        tasksForTodolist = tasks.filter(t => !t.isDone)
     }
 
     const addTaskHandler = (title: string) => {
@@ -64,9 +63,9 @@ export const Todolist: React.FC<PropsType> = React.memo(({todolist}: PropsType) 
             </h3>
             <UniversalInput callBack={addTaskHandler}/>
             <div>
-                {tasksForTodolist.map(t =>
-                    <Task key={t.taskID}
-                          task={t} //task
+                {tasksForTodolist.map(task =>
+                    <Task key={task.taskID}
+                          task={task}
                           removeTask={removeTaskHandler}
                           changeCheckbox={changeCheckboxHandler}
                           updateTaskTitle={updateTaskTitleHandler}

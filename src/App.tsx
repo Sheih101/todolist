@@ -31,7 +31,7 @@ export const App = () => {
         <div className="App">
             <ButtonAppBar/>
             <Container fixed>
-                <Grid container style={{padding: '10px'}} justifyContent="center">
+                <Grid style={{padding: '10px'}}>
                     <UniversalInput callBack={addTodolistHandler}/>
                 </Grid>
                 <Grid container spacing={3}>
