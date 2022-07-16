@@ -1,45 +1,59 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './components/Todolist';
+import {Todolist} from './components/Todolist';
 import {UniversalInput} from './components/UniversalInput';
-import {ButtonAppBar} from './components/ButtonAppBar';
 import {Container, Grid, Paper} from '@mui/material';
-import {addTodolist} from './state/todolists-reducer';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './state/store';
-
-export type FilterValuesType = 'all' | 'completed' | 'active';
-export type TodolistType = {
-    todolistID: string
-    title: string
-    filter: FilterValuesType
-}
-export type TasksStateType = {
-    [key: string]: Array<TaskType>
-}
+import {addTodolistTC, setTodolistsTC} from './state/todolists-reducer';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import AppBar from '@mui/material/AppBar';
+import {useAppDispatch, useAppSelector} from './hooks';
 
 export const App = () => {
 
-    const dispatch = useDispatch()
-    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
+    const todolists = useAppSelector(state => state.todolists)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(setTodolistsTC())
+    }, [])
 
     const addTodolistHandler = (title: string) => {
-        dispatch(addTodolist(title))
+        dispatch(addTodolistTC(title))
     }
 
     return (
         <div className="App">
-            <ButtonAppBar/>
+            <AppBar position="static" style={{backgroundColor: '#121212'}}>
+                <Toolbar>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{mr: 2}}
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                        Todolist
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
             <Container fixed>
                 <Grid style={{padding: '10px'}}>
                     <UniversalInput callBack={addTodolistHandler}/>
                 </Grid>
                 <Grid container spacing={3}>
-                    {todolists.map(todo => {
+                    {todolists.map(tl => {
                         return (
-                            <Grid key={todo.todolistID} item>
+                            <Grid key={tl.id} item>
                                 <Paper style={{padding: '10px'}}>
-                                    <Todolist todolist={todo}/>
+                                    <Todolist todolist={tl}/>
                                 </Paper>
                             </Grid>
                         )
@@ -47,5 +61,5 @@ export const App = () => {
                 </Grid>
             </Container>
         </div>
-    );
+    )
 }

@@ -1,3 +1,4 @@
+import {TextField} from '@mui/material';
 import React, {ChangeEvent, useState} from 'react';
 
 type PropsType = {
@@ -15,6 +16,7 @@ export const EditableSpan = React.memo((props: PropsType) => {
     }
     const onDoubleClickHandler = () => {
         setEdit(true)
+        setTitle(props.title);
     }
     const onBlurHandler = () => {
         setEdit(false)
@@ -23,10 +25,14 @@ export const EditableSpan = React.memo((props: PropsType) => {
 
     return (
         edit
-            ? <input value={title}
-                     onBlur={onBlurHandler}
-                     onChange={onChangeHandler}
-                     autoFocus/>
+            ? <TextField autoFocus
+                         onChange={onChangeHandler}
+                         onBlur={onBlurHandler}
+                         value={title}
+                         variant={'outlined'}
+                         id={'outlined-basic'}
+                         size={'small'}
+            />
             : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
-    );
+    )
 })

@@ -7,23 +7,23 @@ type PropsType = {
 
 export const UniversalInput = React.memo((props: PropsType) => {
 
-    const [title, setTitle] = useState('')
-    const [error, setError] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>('')
+    const [error, setError] = useState<string | null>(null)
 
     const addItemHandler = () => {
         if (title.trim() !== '') {
-            props.callBack(title.trim())
+            props.callBack(title)
             setTitle('')
         } else {
-            setError(true)
+            setError('Title is required')
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (error) {
-            setError(false)
+        if (error !== null) {
+            setError(null)
         }
         if (e.key === 'Enter') {
             addItemHandler()
@@ -32,14 +32,15 @@ export const UniversalInput = React.memo((props: PropsType) => {
 
     return (
         <>
-            <TextField id={'outlined-basic'}
-                       label={error ? 'Title is required' : 'Enter the text'}
-                       variant={'outlined'}
+            <TextField variant={'outlined'}
+                       error={!!error}
+                       id={'outlined-basic'}
+                       label="Title"
                        value={title}
                        onChange={onChangeHandler}
                        onKeyDown={onKeyPressHandler}
                        size={'small'}
-                       error={error}
+                       helperText={error}
             />
             <Button variant={'contained'}
                     onClick={addItemHandler}
