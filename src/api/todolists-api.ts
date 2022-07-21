@@ -4,7 +4,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': '1451deec-1a0d-4254-8a34-9b0f35d44ecf'
+        'API-KEY': '58c96973-e4a2-4bd0-91c0-b77f47cf280e'
     },
 })
 
@@ -15,20 +15,20 @@ export const todolistsAPI = {
     createTodolist: (title: string) => {
         return instance.post <{ title: string }, AxiosResponse<ResponseType<{ item: TodolistType }>>>('todo-lists', {title})
     },
-    deleteTodolist: (todolistId: string) => {
-        return instance.delete<ResponseType>(`todo-lists/${todolistId}`)
+    deleteTodolist: (id: string) => {
+        return instance.delete<ResponseType>(`todo-lists/${id}`)
     },
-    updateTodolistTitle: (todolistId: string, title: string) => {
-        return instance.put<{ title: string }, AxiosResponse<ResponseType>>(`todo-lists/${todolistId}`, {title})
+    updateTodolistTitle: (id: string, title: string) => {
+        return instance.put<{ title: string }, AxiosResponse<ResponseType>>(`todo-lists/${id}`, {title})
     },
-    getTasks: (todolistId: string) => {
-        return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
+    getTasks: (id: string) => {
+        return instance.get<GetTasksResponse>(`todo-lists/${id}/tasks`)
     },
     deleteTask(todolistId: string, taskId: string) {
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
     },
-    createTask(todolistId: string, title: string) {
-        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks`, {title});
+    createTask(id: string, title: string) {
+        return instance.post<{ title: string }, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${id}/tasks`, {title});
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<UpdateTaskModelType, AxiosResponse<ResponseType<{ item: TaskType }>>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
@@ -37,7 +37,6 @@ export const todolistsAPI = {
 
 
 // Types
-
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
@@ -75,6 +74,12 @@ export type UpdateTaskModelType = {
     priority: TaskPriorities
     startDate: string
     deadline: string
+}
+
+export enum ResultCode {
+    success = 0,
+    error = 1,
+    captcha = 10
 }
 
 export enum TaskStatuses {

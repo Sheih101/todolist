@@ -1,21 +1,22 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {Button, TextField} from '@mui/material';
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 
 type PropsType = {
-    callBack: (title: string) => void
+    addItem: (title: string) => void
+    disabled?: boolean
 }
 
-export const UniversalInput = React.memo((props: PropsType) => {
-
+export const AddItemForm = React.memo((props: PropsType) => {
     const [title, setTitle] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
 
-    const addItemHandler = () => {
+    const addItem = () => {
         if (title.trim() !== '') {
-            props.callBack(title)
+            props.addItem(title)
             setTitle('')
         } else {
-            setError('Title is required')
+            setError('Title is required!')
         }
     }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,24 +27,25 @@ export const UniversalInput = React.memo((props: PropsType) => {
             setError(null)
         }
         if (e.key === 'Enter') {
-            addItemHandler()
+            addItem()
         }
     }
 
     return (
         <>
-            <TextField variant={'outlined'}
-                       error={!!error}
-                       id={'outlined-basic'}
-                       label="Title"
+            <TextField error={!!error}
                        value={title}
+                       disabled={props.disabled}
                        onChange={onChangeHandler}
                        onKeyDown={onKeyPressHandler}
+                       variant={'outlined'}
+                       label="Title"
                        size={'small'}
                        helperText={error}
             />
-            <Button variant={'contained'}
-                    onClick={addItemHandler}
+            <Button disabled={props.disabled}
+                    onClick={addItem}
+                    variant={'contained'}
                     style={{
                         maxWidth: '38px',
                         maxHeight: '38px',

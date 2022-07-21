@@ -1,26 +1,25 @@
-import {TextField} from '@mui/material';
 import React, {ChangeEvent, useState} from 'react';
+import {TextField} from '@mui/material';
 
 type PropsType = {
-    title: string
-    callBack: (title: string) => void
+    value: string
+    callback: (value: string) => void
 }
 
 export const EditableSpan = React.memo((props: PropsType) => {
-
-    const [title, setTitle] = useState<string>(props.title)
+    const [value, setValue] = useState<string>(props.value)
     const [edit, setEdit] = useState<boolean>(false)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+        setValue(e.currentTarget.value)
     }
     const onDoubleClickHandler = () => {
         setEdit(true)
-        setTitle(props.title);
+        setValue(props.value);
     }
     const onBlurHandler = () => {
         setEdit(false)
-        props.callBack(title)
+        props.callback(value)
     }
 
     return (
@@ -28,11 +27,11 @@ export const EditableSpan = React.memo((props: PropsType) => {
             ? <TextField autoFocus
                          onChange={onChangeHandler}
                          onBlur={onBlurHandler}
-                         value={title}
+                         value={value}
                          variant={'outlined'}
                          id={'outlined-basic'}
                          size={'small'}
             />
-            : <span onDoubleClick={onDoubleClickHandler}>{props.title}</span>
+            : <span onDoubleClick={onDoubleClickHandler}>{props.value}</span>
     )
 })
