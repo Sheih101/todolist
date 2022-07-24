@@ -3,6 +3,7 @@ import {AppThunkType} from '../../app/store';
 import {RequestStatusType, setAppStatus} from '../../app/app-reducer';
 import {handleAppError, handleNetworkError} from '../../utils/error-utils';
 import {AxiosError} from 'axios';
+import {setTasksTC} from './tasks-reducer';
 
 const initialState: TodolistDomainType[] = []
 
@@ -20,6 +21,8 @@ export const todolistsReducer = (state: TodolistDomainType[] = initialState, act
             return state.map(tl => tl.id === action.id ? {...tl, entityStatus: action.entityStatus} : tl)
         case 'SET-TODOLISTS':
             return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
+        case 'CLEAR-DATA':
+            return []
         default:
             return state
     }
@@ -39,6 +42,8 @@ export const changeTodolistEntityStatus = (id: string, entityStatus: RequestStat
     ({type: 'CHANGE-TODOLIST-ENTITY-STATUS', id, entityStatus} as const)
 export const setTodolists = (todolists: TodolistType[]) =>
     ({type: 'SET-TODOLISTS', todolists} as const)
+export const clearData = () =>
+    ({type: 'CLEAR-DATA'} as const)
 
 
 //Thunk Creators
@@ -97,6 +102,12 @@ export const setTodolistsTC = (): AppThunkType => (dispatch) => {
         .then(res => {
             dispatch(setTodolists(res.data))
             dispatch(setAppStatus('succeeded'))
+            return res.data
+        })
+        .then(todos => {
+            todos.forEach(tl => {
+                dispatch(setTasksTC(tl.id))
+            })
         })
         .catch((error: AxiosError) => {
             handleNetworkError(dispatch, error.message)
@@ -119,6 +130,7 @@ export type TodolistsActionsType =
     | ChangeFilterActionType
     | ChangeTodolistEntityStatusActionType
     | SetTodolistsActionType
+    | ClearDataActionType
 
 export type AddTodolistActionType = ReturnType<typeof addTodolist>
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolist>
@@ -126,6 +138,7 @@ export type UpdateTodolistTitleActionType = ReturnType<typeof updateTodolistTitl
 export type ChangeFilterActionType = ReturnType<typeof changeFilter>
 export type ChangeTodolistEntityStatusActionType = ReturnType<typeof changeTodolistEntityStatus>
 export type SetTodolistsActionType = ReturnType<typeof setTodolists>
+export type ClearDataActionType = ReturnType<typeof clearData>
 
 
 

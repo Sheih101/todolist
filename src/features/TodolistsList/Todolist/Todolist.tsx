@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {EditableSpan} from '../../../common/components/EditableSpan/EditableSpan';
 import {AddItemForm} from '../../../common/components/AddItemForm/AddItemForm';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Delete from '@mui/icons-material/Delete';
 import {Task} from './Task/Task';
-import {addTaskTC, changeStatusTC, removeTaskTC, setTasksTC, updateTaskTitleTC} from '../tasks-reducer';
+import {addTaskTC, changeStatusTC, removeTaskTC, updateTaskTitleTC} from '../tasks-reducer';
 import {changeFilter, FilterValuesType, removeTodolistTC, TodolistDomainType, updateTodolistTitleTC} from '../todolists-reducer';
 import {TaskStatuses} from '../../../api/todolists-api';
 import {useAppDispatch, useAppSelector} from '../../../common/hooks';
@@ -13,10 +13,6 @@ import {useAppDispatch, useAppSelector} from '../../../common/hooks';
 export const Todolist = React.memo(({todolist}: { todolist: TodolistDomainType }) => {
     const tasks = useAppSelector(state => state.tasks[todolist.id])
     const dispatch = useAppDispatch()
-
-    useEffect(() => {
-        dispatch(setTasksTC(todolist.id))
-    }, [])
 
     let tasksForTodolist = tasks
     if (todolist.filter === 'active') {

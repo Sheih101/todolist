@@ -3,6 +3,7 @@ import {AppThunkType} from '../../app/store';
 import {authAPI, LoginParamsType, ResultCode} from '../../api/todolists-api';
 import {handleAppError, handleNetworkError} from '../../utils/error-utils';
 import {AxiosError} from 'axios';
+import {clearData, ClearDataActionType} from '../TodolistsList/todolists-reducer';
 
 const initialState = {
     isLoggedIn: false
@@ -24,7 +25,7 @@ export const setIsLoggedIn = (value: boolean) => ({type: 'login/SET-IS-LOGGED-IN
 
 
 // Thunk Creators
-export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch) => {
+export const logInTC = (data: LoginParamsType): AppThunkType => (dispatch) => {
     dispatch(setAppStatus('loading'))
     authAPI.login(data)
         .then(res => {
@@ -39,13 +40,14 @@ export const loginTC = (data: LoginParamsType): AppThunkType => (dispatch) => {
             handleNetworkError(dispatch, error.message)
         })
 }
-export const logoutTC = (): AppThunkType => (dispatch) => {
+export const logOutTC = (): AppThunkType => (dispatch) => {
     dispatch(setAppStatus('loading'))
     authAPI.logout()
         .then(res => {
             if (res.data.resultCode === ResultCode.success) {
                 dispatch(setIsLoggedIn(false))
                 dispatch(setAppStatus('succeeded'))
+                dispatch(clearData())
             } else {
                 handleAppError(dispatch, res.data)
             }
@@ -57,5 +59,5 @@ export const logoutTC = (): AppThunkType => (dispatch) => {
 
 
 // Types
-export type AuthActionsType = SetIsLoggedInType
+export type AuthActionsType = SetIsLoggedInType | ClearDataActionType
 type SetIsLoggedInType = ReturnType<typeof setIsLoggedIn>

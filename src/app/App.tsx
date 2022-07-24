@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import {logoutTC} from '../features/Login/auth-reducer';
+import {logOutTC} from '../features/Login/auth-reducer';
 
 export const App = () => {
     const status = useAppSelector(state => state.app.status)
@@ -35,7 +35,7 @@ export const App = () => {
     }
 
     const logoutHandler = () => {
-        dispatch(logoutTC())
+        dispatch(logOutTC())
     }
 
     return (

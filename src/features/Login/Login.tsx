@@ -1,7 +1,6 @@
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
-import FormLabel from '@mui/material/FormLabel';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -9,10 +8,10 @@ import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import {useAppDispatch, useAppSelector} from '../../common/hooks';
 import {useFormik} from 'formik';
-import {loginTC} from './auth-reducer';
+import {logInTC} from './auth-reducer';
 import {Navigate} from 'react-router-dom';
 import Paper from '@mui/material/Paper';
-
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 export const Login = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
@@ -41,7 +40,7 @@ export const Login = () => {
         },
 
         onSubmit: values => {
-            dispatch(loginTC(values))
+            dispatch(logInTC(values))
             formik.resetForm()
         },
     })
@@ -51,20 +50,10 @@ export const Login = () => {
     }
 
     return (
-        <Grid container justifyContent={'center'}>
+        <Grid container justifyContent={'center'} alignContent={'center'}>
             <Paper style={{padding: '20px', margin: '10px'}}>
                 <Grid item justifyContent={'center'}>
                     <FormControl>
-                        <FormLabel>
-                            <p>To log in get registered
-                                <a href={'https://social-network.samuraijs.com/'}
-                                   target={'_blank'}> here
-                                </a>
-                            </p>
-                            <p>or use common test account credentials:</p>
-                            <p>Email: free@samuraijs.com</p>
-                            <p>Password: free</p>
-                        </FormLabel>
                         <form onSubmit={formik.handleSubmit}>
                             <FormGroup>
                                 <TextField label="Email"
@@ -91,9 +80,21 @@ export const Login = () => {
                                                                      {...formik.getFieldProps('rememberMe')}
                                                   />}
                                 />
-                                <Button type={'submit'} variant={'contained'} color={'primary'}>
-                                    Login
-                                </Button>
+                                <ButtonGroup orientation={'vertical'}>
+                                    <Button type={'submit'}
+                                            variant={'contained'}
+                                            color={'primary'}
+                                            style={{margin: '10px'}}
+                                    >Login
+                                    </Button>
+                                    <Button target={'_blank'}
+                                            variant={'contained'}
+                                            color={'primary'}
+                                            style={{margin: '10px'}}
+                                            href={'https://social-network.samuraijs.com/'}
+                                    >Sign up
+                                    </Button>
+                                </ButtonGroup>
                             </FormGroup>
                         </form>
                     </FormControl>

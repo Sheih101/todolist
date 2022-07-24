@@ -1,4 +1,4 @@
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer';
+import {AddTodolistActionType, ClearDataActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer';
 import {ResultCode, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api';
 import {AppThunkType, RootStateType} from '../../app/store';
 import {setAppStatus} from '../../app/app-reducer';
@@ -45,6 +45,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             })
             return stateCopy
         }
+        case 'CLEAR-DATA':
+            return {}
         default:
             return state
     }
@@ -176,6 +178,7 @@ export type TasksActionsType =
     | AddTodolistActionType
     | RemoveTodolistActionType
     | SetTodolistsActionType
+    | ClearDataActionType
 
 type AddTaskActionType = ReturnType<typeof addTask>
 type RemoveTaskActionType = ReturnType<typeof removeTask>
